@@ -1,0 +1,152 @@
+[
+  {
+    "sc": "TH1",
+    "check": "Bank tắt -> 503 + error, < 1,5s",
+    "value": "503 FAILED 22ms {\"error\":\"Bank unavailable\",\"paymentId\":\"P1\",\"status\":\"FAILED\"}",
+    "pass": true
+  },
+  {
+    "sc": "TH1",
+    "check": "Fee Service sống, GET fees 200 nhanh",
+    "value": "200 1ms",
+    "pass": true
+  },
+  {
+    "sc": "TH1",
+    "check": "Bank chạy lại -> 201 không cần restart",
+    "value": "201 PAID 4ms",
+    "pass": true
+  },
+  {
+    "sc": "TH1",
+    "check": "BANK_URL=http://localhost:4999 -> vẫn 503",
+    "value": "503 FAILED 20ms",
+    "pass": true
+  },
+  {
+    "sc": "TH2",
+    "check": "1 thanh toán -> 504 PENDING",
+    "value": "504 PENDING 4031ms",
+    "pass": true
+  },
+  {
+    "sc": "TH2",
+    "check": "Thời gian trả lời <= 4,5s",
+    "value": "4031ms",
+    "pass": true
+  },
+  {
+    "sc": "TH2",
+    "check": "GET fees khi 20 thanh toán đang chờ < 300ms",
+    "value": "3, 1, 3, 3, 2 ms",
+    "pass": true
+  },
+  {
+    "sc": "TH2",
+    "check": "20 thanh toán đồng thời: 504 PENDING, <= 4,5s",
+    "value": "20/20 PENDING, chậm nhất 4026ms, tổng 4028ms",
+    "pass": true
+  },
+  {
+    "sc": "TH3",
+    "check": "200/200 thành công",
+    "value": "200/200 trong 124ms",
+    "pass": true
+  },
+  {
+    "sc": "TH3",
+    "check": "Số kết nối TCP <= 20",
+    "value": "connections=11",
+    "pass": true
+  },
+  {
+    "sc": "TH3",
+    "check": "Sau 6s nhàn rỗi, 5 yêu cầu tiếp theo thành công",
+    "value": "201,201,201,201,201",
+    "pass": true
+  },
+  {
+    "sc": "TH4a",
+    "check": ">= 54/60 PAID",
+    "value": "60/60; không thành công: không có",
+    "pass": true
+  },
+  {
+    "sc": "TH4a",
+    "check": "Lệnh không thành công trả 504 PENDING",
+    "value": "không có",
+    "pass": true
+  },
+  {
+    "sc": "TH4a",
+    "check": "duplicates = 0",
+    "value": "charges=60, requests=81, duplicates=0, connections=23",
+    "pass": true
+  },
+  {
+    "sc": "TH4a",
+    "check": "Công nợ giảm đúng tiền các lệnh PAID",
+    "value": "giảm 60.000đ, PAID 60×1.000đ",
+    "pass": true
+  },
+  {
+    "sc": "TH4a",
+    "check": "Mỗi thanh toán <= 4,5s",
+    "value": "chậm nhất 68ms",
+    "pass": true
+  },
+  {
+    "sc": "TH4b",
+    "check": ">= 54/60 PAID",
+    "value": "60/60; không thành công: không có",
+    "pass": true
+  },
+  {
+    "sc": "TH4b",
+    "check": "duplicates = 0",
+    "value": "charges=60, requests=74, duplicates=0, connections=2",
+    "pass": true
+  },
+  {
+    "sc": "TH4b",
+    "check": "Công nợ giảm đúng tiền các lệnh PAID",
+    "value": "giảm 60.000đ, PAID 60×1.000đ",
+    "pass": true
+  },
+  {
+    "sc": "TH4b",
+    "check": "Mỗi thanh toán <= 4,5s",
+    "value": "chậm nhất 176ms",
+    "pass": true
+  },
+  {
+    "sc": "TH4c",
+    "check": "Trả 402 FAILED",
+    "value": "402 FAILED 26ms {\"error\":\"limit exceeded\",\"paymentId\":\"P1\",\"status\":\"FAILED\"}",
+    "pass": true
+  },
+  {
+    "sc": "TH4c",
+    "check": "Ngân hàng nhận đúng 1 yêu cầu",
+    "value": "requests=1",
+    "pass": true
+  },
+  {
+    "sc": "NV",
+    "check": "SV2 nợ 0 -> không cho thanh toán",
+    "value": "400 {\"error\":\"Amount exceeds debt\",\"paymentId\":null,\"status\":\"FAILED\"}",
+    "pass": true
+  },
+  {
+    "sc": "NV",
+    "check": "SV3 trả 3,3tr > nợ 3,2tr -> 400",
+    "value": "400",
+    "pass": true
+  },
+  {
+    "sc": "NV",
+    "check": "2 lệnh 3tr song song cho SV3 -> chỉ 1 lệnh qua, nợ không âm",
+    "value": "201,400; nợ còn 200000",
+    "pass": true
+  }
+]

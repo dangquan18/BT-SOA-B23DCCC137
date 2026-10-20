@@ -1,0 +1,31 @@
+{
+  "name": "lab3-fee-bank",
+  "version": "1.0.0",
+  "description": "Lab 3 - Kết nối và duy trì kết nối giữa các service (Fee Service gọi cổng ngân hàng)",
+  "main": "fee-service/server.js",
+  "scripts": {
+    "bank": "node bank-service/server.js",
+    "bank:slow": "cross-env DELAY_MS=5000 node bank-service/server.js",
+    "bank:drop": "cross-env DROP_RATE=0.3 node bank-service/server.js",
+    "bank:fail": "cross-env FAIL_RATE=0.3 node bank-service/server.js",
+    "fee": "node fee-service/server.js",
+    "fee:before": "node fee-service/server-before.js",
+    "fee:4999": "cross-env BANK_URL=http://localhost:4999 node fee-service/server.js",
+    "load:200": "node scripts/load-200.js",
+    "burst:20": "node scripts/burst-20.js",
+    "seq:60": "node scripts/seq-60.js",
+    "test": "node scripts/run-all.js",
+    "test:after": "node scripts/run-all.js after",
+    "test:before": "node scripts/run-all.js before"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.3.0"
+  },
+  "devDependencies": {
+    "cross-env": "^10.1.0"
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "info": {
+    "name": "Lab 3 - Fee Service & Bank",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "feeUrl", "value": "http://localhost:4001" },
+    { "key": "bankUrl", "value": "http://localhost:4002" }
+  ],
+  "item": [
+    {
+      "name": "Fee Service",
+      "item": [
+        {
+          "name": "GET fees SV1 (50.000.000)",
+          "request": { "method": "GET", "url": "{{feeUrl}}/students/1/fees" },
+          "event": [{ "listen": "test", "script": { "exec": [
+            "pm.test('200', () => pm.response.to.have.status(200));",
+            "pm.test('< 300ms', () => pm.expect(pm.response.responseTime).to.be.below(300));"
+          ] } }]
+        },
+        { "name": "GET fees SV2 (0)", "request": { "method": "GET", "url": "{{feeUrl}}/students/2/fees" } },
+        { "name": "GET fees SV3 (3.200.000)", "request": { "method": "GET", "url": "{{feeUrl}}/students/3/fees" } },
+        {
+          "name": "POST thanh toán 100.000 (SV1)",
+          "request": {
+            "method": "POST", "url": "{{feeUrl}}/students/1/payments",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"amount\": 100000}" }
+          },
+          "event": [{ "listen": "test", "script": { "exec": [
+            "const b = pm.response.json();",
+            "if (b.paymentId) pm.collectionVariables.set('paymentId', b.paymentId);",
+            "pm.test('<= 4,5s', () => pm.expect(pm.response.responseTime).to.be.at.most(4500));",
+            "pm.test('có status', () => pm.expect(b.status).to.be.oneOf(['PAID','FAILED','PENDING']));",
+            "if (pm.response.code !== 201) pm.test('lỗi có error + paymentId', () => { pm.expect(b).to.have.property('error'); pm.expect(b).to.have.property('paymentId'); });"
+          ] } }]
+        },
+        {
+          "name": "POST thanh toán 25.000.000 (TH4c - 402)",
+          "request": {
+            "method": "POST", "url": "{{feeUrl}}/students/1/payments",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"amount\": 25000000}" }
+          },
+          "event": [{ "listen": "test", "script": { "exec": [
+            "pm.test('402 FAILED', () => { pm.response.to.have.status(402); pm.expect(pm.response.json().status).to.eql('FAILED'); });"
+          ] } }]
+        },
+        {
+          "name": "POST vượt công nợ (SV2 - 400)",
+          "request": {
+            "method": "POST", "url": "{{feeUrl}}/students/2/payments",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"amount\": 100000}" }
+          }
+        },
+        {
+          "name": "POST số tiền không hợp lệ (400)",
+          "request": {
+            "method": "POST", "url": "{{feeUrl}}/students/1/payments",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"amount\": -5}" }
+          }
+        },
+        { "name": "GET trạng thái lệnh vừa tạo", "request": { "method": "GET", "url": "{{feeUrl}}/payments/{{paymentId}}" } }
+      ]
+    },
+    {
+      "name": "Bank",
+      "item": [
+        {
+          "name": "POST /charges (có Idempotency-Key) - gửi 2 lần",
+          "request": {
+            "method": "POST", "url": "{{bankUrl}}/charges",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Idempotency-Key", "value": "TEST-1" }
+            ],
+            "body": { "mode": "raw", "raw": "{\"reference\": \"TEST-1\", \"amount\": 1000}" }
+          }
+        },
+        {
+          "name": "POST /charges số tiền không hợp lệ (400)",
+          "request": {
+            "method": "POST", "url": "{{bankUrl}}/charges",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"reference\": \"TEST-2\", \"amount\": 0}" }
+          }
+        },
+        {
+          "name": "POST /charges vượt hạn mức (402)",
+          "request": {
+            "method": "POST", "url": "{{bankUrl}}/charges",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"reference\": \"TEST-3\", \"amount\": 25000000}" }
+          }
+        },
+        { "name": "GET /stats", "request": { "method": "GET", "url": "{{bankUrl}}/stats" } }
+      ]
+    }
+  ]
+}
