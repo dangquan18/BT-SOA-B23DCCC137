@@ -8,7 +8,7 @@
   {
     "sc": "TH1",
     "check": "Fee Service sống, GET fees 200 nhanh",
-    "value": "200 1ms",
+    "value": "200 0ms",
     "pass": true
   },
   {
@@ -26,31 +26,31 @@
   {
     "sc": "TH2",
     "check": "1 thanh toán -> 504 PENDING",
-    "value": "504 PENDING 4031ms",
+    "value": "504 PENDING 4025ms",
     "pass": true
   },
   {
     "sc": "TH2",
     "check": "Thời gian trả lời <= 4,5s",
-    "value": "4031ms",
+    "value": "4025ms",
     "pass": true
   },
   {
     "sc": "TH2",
     "check": "GET fees khi 20 thanh toán đang chờ < 300ms",
-    "value": "3, 1, 3, 3, 2 ms",
+    "value": "2, 2, 3, 1, 2 ms",
     "pass": true
   },
   {
     "sc": "TH2",
     "check": "20 thanh toán đồng thời: 504 PENDING, <= 4,5s",
-    "value": "20/20 PENDING, chậm nhất 4026ms, tổng 4028ms",
+    "value": "20/20 PENDING, chậm nhất 4027ms, tổng 4029ms",
     "pass": true
   },
   {
     "sc": "TH3",
     "check": "200/200 thành công",
-    "value": "200/200 trong 124ms",
+    "value": "200/200 trong 128ms",
     "pass": true
   },
   {
@@ -80,7 +80,7 @@
   {
     "sc": "TH4a",
     "check": "duplicates = 0",
-    "value": "charges=60, requests=81, duplicates=0, connections=23",
+    "value": "charges=60, requests=80, duplicates=0, connections=22",
     "pass": true
   },
   {
@@ -92,37 +92,37 @@
   {
     "sc": "TH4a",
     "check": "Mỗi thanh toán <= 4,5s",
-    "value": "chậm nhất 68ms",
+    "value": "chậm nhất 64ms",
     "pass": true
   },
   {
     "sc": "TH4b",
     "check": ">= 54/60 PAID",
-    "value": "60/60; không thành công: không có",
+    "value": "59/60; không thành công: 1×(503 FAILED)",
     "pass": true
   },
   {
     "sc": "TH4b",
     "check": "duplicates = 0",
-    "value": "charges=60, requests=74, duplicates=0, connections=2",
+    "value": "charges=59, requests=94, duplicates=0, connections=3",
     "pass": true
   },
   {
     "sc": "TH4b",
     "check": "Công nợ giảm đúng tiền các lệnh PAID",
-    "value": "giảm 60.000đ, PAID 60×1.000đ",
+    "value": "giảm 59.000đ, PAID 59×1.000đ",
     "pass": true
   },
   {
     "sc": "TH4b",
     "check": "Mỗi thanh toán <= 4,5s",
-    "value": "chậm nhất 176ms",
+    "value": "chậm nhất 528ms",
     "pass": true
   },
   {
     "sc": "TH4c",
     "check": "Trả 402 FAILED",
-    "value": "402 FAILED 26ms {\"error\":\"limit exceeded\",\"paymentId\":\"P1\",\"status\":\"FAILED\"}",
+    "value": "402 FAILED 22ms {\"error\":\"limit exceeded\",\"paymentId\":\"P1\",\"status\":\"FAILED\"}",
     "pass": true
   },
   {

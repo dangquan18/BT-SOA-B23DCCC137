@@ -1,5 +1,3 @@
-// TH3: gửi 200 thanh toán, 10 yêu cầu cùng lúc (1.000đ mỗi lần), rồi đo lại sau 6s nhàn rỗi
-// Cần bật sẵn bank + fee service.  Chạy: npm run load:200
 const { sleep, pay, stats, tally } = require('./lib');
 
 const TOTAL = Number(process.argv[2] || 200);

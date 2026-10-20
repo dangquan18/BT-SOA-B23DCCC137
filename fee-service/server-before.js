@@ -1,7 +1,3 @@
-// Fee Service (bản TRƯỚC KHI SỬA) - chỉ dùng để đo số liệu so sánh
-// - mỗi lời gọi mở một kết nối TCP mới (agent: false)
-// - không có timeout, không thử lại, không Idempotency-Key
-// - mọi lỗi kết nối đều trả 500
 const express = require('express');
 const http = require('http');
 

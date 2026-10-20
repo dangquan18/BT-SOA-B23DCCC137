@@ -1,4 +1,3 @@
-// Ngân hàng giả lập - cổng 4002
 const http = require('http');
 
 const PORT = Number(process.env.PORT || 4002);
@@ -8,8 +7,8 @@ const DROP_RATE = Number(process.env.DROP_RATE || 0);
 const LIMIT = 20_000_000;
 
 const stats = { connections: 0, requests: 0, charges: 0, duplicates: 0 };
-const byKey = new Map(); // Idempotency-Key -> giao dịch đã trừ
-const byRef = new Map(); // reference -> số lần trừ tiền
+const byKey = new Map();
+const byRef = new Map();
 let seq = 0;
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -34,12 +33,11 @@ const server = http.createServer(async (req, res) => {
   if (DELAY_MS) await sleep(DELAY_MS);
 
   const key = req.headers['idempotency-key'];
-  if (key && byKey.has(key)) return send(res, 201, byKey.get(key)); // trả lại giao dịch cũ
+  if (key && byKey.has(key)) return send(res, 201, byKey.get(key));
 
   if (amount > LIMIT) return send(res, 402, { error: 'limit exceeded' });
   if (Math.random() < FAIL_RATE) return send(res, 500, { error: 'temporary failure' });
 
-  // trừ tiền
   const n = (byRef.get(reference) || 0) + 1;
   byRef.set(reference, n);
   if (n > 1) stats.duplicates++;
@@ -47,7 +45,7 @@ const server = http.createServer(async (req, res) => {
   const tx = { chargeId: 'C' + ++seq, reference, amount };
   if (key) byKey.set(key, tx);
 
-  if (Math.random() < DROP_RATE) return req.socket.destroy(); // trừ xong rồi cắt kết nối
+  if (Math.random() < DROP_RATE) return req.socket.destroy();
   send(res, 201, tx);
 });
 

@@ -1,7 +1,3 @@
-// Đo tự động cả 4 tình huống cho bản TRƯỚC và SAU khi sửa.
-// Tự khởi động / tắt ngân hàng và Fee Service cho từng tình huống (không cần bật gì trước).
-//   npm test                  -> đo cả 2 bản, ghi kết quả vào results/
-//   node scripts/run-all.js after
 const { spawn } = require('child_process');
 const path = require('path');
 const fs = require('fs');

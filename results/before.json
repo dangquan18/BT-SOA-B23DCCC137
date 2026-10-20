@@ -2,7 +2,7 @@
   {
     "sc": "TH1",
     "check": "Bank tắt -> 503 + error, < 1,5s",
-    "value": "500 FAILED 25ms {\"error\":\"\",\"paymentId\":\"P1\",\"status\":\"FAILED\"}",
+    "value": "500 FAILED 24ms {\"error\":\"\",\"paymentId\":\"P1\",\"status\":\"FAILED\"}",
     "pass": false
   },
   {
@@ -20,37 +20,37 @@
   {
     "sc": "TH1",
     "check": "BANK_URL=http://localhost:4999 -> vẫn 503",
-    "value": "500 FAILED 22ms",
+    "value": "500 FAILED 21ms",
     "pass": false
   },
   {
     "sc": "TH2",
     "check": "1 thanh toán -> 504 PENDING",
-    "value": "201 PAID 5037ms",
+    "value": "201 PAID 5033ms",
     "pass": false
   },
   {
     "sc": "TH2",
     "check": "Thời gian trả lời <= 4,5s",
-    "value": "5037ms",
+    "value": "5033ms",
     "pass": false
   },
   {
     "sc": "TH2",
     "check": "GET fees khi 20 thanh toán đang chờ < 300ms",
-    "value": "2, 2, 4, 1, 4 ms",
+    "value": "4, 3, 2, 4, 3 ms",
     "pass": true
   },
   {
     "sc": "TH2",
     "check": "20 thanh toán đồng thời: 504 PENDING, <= 4,5s",
-    "value": "0/20 PENDING, chậm nhất 5038ms, tổng 5041ms",
+    "value": "0/20 PENDING, chậm nhất 5032ms, tổng 5034ms",
     "pass": false
   },
   {
     "sc": "TH3",
     "check": "200/200 thành công",
-    "value": "200/200 trong 212ms",
+    "value": "200/200 trong 203ms",
     "pass": true
   },
   {
@@ -68,13 +68,13 @@
   {
     "sc": "TH4a",
     "check": ">= 54/60 PAID",
-    "value": "42/60; không thành công: 18×(500 FAILED)",
+    "value": "35/60; không thành công: 25×(500 FAILED)",
     "pass": false
   },
   {
     "sc": "TH4a",
     "check": "Lệnh không thành công trả 504 PENDING",
-    "value": "18×(500 FAILED)",
+    "value": "25×(500 FAILED)",
     "pass": false
   },
   {
@@ -86,37 +86,37 @@
   {
     "sc": "TH4a",
     "check": "Công nợ giảm đúng tiền các lệnh PAID",
-    "value": "giảm 42.000đ, PAID 42×1.000đ",
+    "value": "giảm 35.000đ, PAID 35×1.000đ",
     "pass": true
   },
   {
     "sc": "TH4a",
     "check": "Mỗi thanh toán <= 4,5s",
-    "value": "chậm nhất 25ms",
+    "value": "chậm nhất 21ms",
     "pass": true
   },
   {
     "sc": "TH4b",
     "check": ">= 54/60 PAID",
-    "value": "43/60; không thành công: 17×(500 FAILED)",
+    "value": "44/60; không thành công: 16×(500 FAILED)",
     "pass": false
   },
   {
     "sc": "TH4b",
     "check": "duplicates = 0",
-    "value": "charges=43, requests=60, duplicates=0, connections=61",
+    "value": "charges=44, requests=60, duplicates=0, connections=61",
     "pass": true
   },
   {
     "sc": "TH4b",
     "check": "Công nợ giảm đúng tiền các lệnh PAID",
-    "value": "giảm 43.000đ, PAID 43×1.000đ",
+    "value": "giảm 44.000đ, PAID 44×1.000đ",
     "pass": true
   },
   {
     "sc": "TH4b",
     "check": "Mỗi thanh toán <= 4,5s",
-    "value": "chậm nhất 22ms",
+    "value": "chậm nhất 20ms",
     "pass": true
   },
   {

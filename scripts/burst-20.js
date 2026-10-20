@@ -1,5 +1,3 @@
-// TH2: bắn cùng lúc 20 thanh toán, trong lúc đó đo GET /students/1/fees
-// Bật bank với DELAY_MS=5000 (npm run bank:slow) + fee service.  Chạy: npm run burst:20
 const { sleep, pay, fees, tally } = require('./lib');
 
 (async () => {

@@ -1,4 +1,3 @@
-// Hàm dùng chung cho các script đo
 const FEE = process.env.FEE_URL || 'http://localhost:4001';
 const BANK = process.env.BANK_URL || 'http://localhost:4002';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -24,7 +23,6 @@ async function fees(id = 1) {
 
 const stats = async () => (await fetch(BANK + '/stats')).json();
 
-// Đếm kết quả theo "mã status", ví dụ { '201 PAID': 57, '504 PENDING': 3 }
 function tally(results) {
   const t = {};
   for (const r of results) { const k = `${r.code} ${r.body.status || ''}`.trim(); t[k] = (t[k] || 0) + 1; }

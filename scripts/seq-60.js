@@ -1,6 +1,3 @@
-// TH4a/b: gửi 60 thanh toán lần lượt, so số lệnh PAID với charges / duplicates ở /stats
-// Bật bank với DROP_RATE=0.3 (npm run bank:drop) hoặc FAIL_RATE=0.3 (npm run bank:fail) + fee service.
-// Chạy: npm run seq:60
 const { pay, fees, stats, tally } = require('./lib');
 
 (async () => {
